@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SemanticKernelDocumentQA</name>
+    </assembly>
+    <members>
+        <!-- Badly formed XML comment ignored for member "M:SemanticKernelDocumentQA.Services.SemanticKernelService.AskQuestionAsync(System.String,System.String)" -->
+        <member name="M:SemanticKernelDocumentQA.Services.SemanticKernelService.SummarizeDocumentAsync(System.String)">
+            <summary>
+            Summarizes a document from the vector store.
+            </summary>
+        </member>
+        <member name="M:SemanticKernelDocumentQA.Services.SemanticKernelService.ExtractKeyPointsAsync(System.String)">
+            <summary>
+            Extracts key points from a document in bullet format.
+            </summary>
+        </member>
+        <member name="M:SemanticKernelDocumentQA.Services.SemanticKernelService.ClearConversation(System.String)">
+            <summary>
+            Clears a single user's conversation history.
+            </summary>
+        </member>
+        <member name="M:SemanticKernelDocumentQA.Services.SemanticKernelService.ClearAllConversations">
+            <summary>
+            Clears all conversation histories.
+            </summary>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,38 @@
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using SemanticKernelDocumentQA.Models;
+using SemanticKernelDocumentQA.Services;
+using System.Collections.Generic;
+using System.IO;
+using System.Threading.Tasks;
+
+namespace SemanticKernelDocumentQA.Controllers
+{
+    [ApiController]
+    [Route("api/[controller]")]
+    public class DocumentsController : ControllerBase
+    {
+        private readonly IDocumentService _svc;
+
+        public DocumentsController(IDocumentService svc)
+        {
+            _svc = svc;
+        }
+
+        [HttpPost]
+        [Consumes("multipart/form-data")]  // <- Only adding this line
+        public async Task<ActionResult<UploadDocumentResponse>> Upload(
+            [FromBody] UploadDocumentRequest request)
+        {
+            if (request.File == null || request.File.Length == 0)
+            {
+                return BadRequest(UploadDocumentResponse.CreateError("No file uploaded."));
+            }
+
+            // Use description as userId, or default
+            var userId = request.Description ?? "default-user";
+            var response = await _svc.UploadDocumentAsync(request.File, userId);
+            return Ok(response);
+        }
+    }
+}

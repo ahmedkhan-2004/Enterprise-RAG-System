@@ -1,0 +1,73 @@
+version: "3.8"
+
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.14.0
+    container_name: elasticsearch-dev
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - ES_JAVA_OPTS=-Xms1g -Xmx1g
+      - http.cors.enabled=true
+      - http.cors.allow-origin="*"
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data
+    networks:
+      - elastic-network
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:9200/_cluster/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.14.0
+    container_name: kibana-dev
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch-dev:9200
+      - SERVER_NAME=kibana-dev
+    ports:
+      - "5601:5601"
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+    networks:
+      - elastic-network
+
+  # Your Semantic Kernel Document QA API
+  semantickernelapi:
+    image: semantic-kernel-qa:latest
+    container_name: semantickerneldocumentqa
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:5009
+      - Elasticsearch__Url=http://elasticsearch-dev:9200
+      - Elasticsearch__IndexName=document-qa-index
+      # Add your OpenAI/Azure OpenAI configuration
+      - OpenAI__ApiKey=${OPENAI_API_KEY:-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}
+      - OpenAI__Model=${OPENAI_MODEL:-gpt-4}
+      - AzureOpenAI__Endpoint=${AZURE_OPENAI_ENDPOINT:-}
+      - AzureOpenAI__ApiKey=${AZURE_OPENAI_KEY:-}
+      - AzureOpenAI__DeploymentName=${AZURE_OPENAI_DEPLOYMENT:-}
+    ports:
+      - "8080:5009"
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+    networks:
+      - elastic-network
+    volumes:
+      # Persist uploaded documents
+      - ./uploads:/app/uploads
+      # Optional: Mount appsettings for local config overrides
+      - ./appsettings.Development.json:/app/appsettings.Development.json:ro
+
+volumes:
+  elasticsearch-data:
+
+networks:
+  elastic-network:
+    driver: bridge

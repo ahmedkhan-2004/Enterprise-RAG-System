@@ -1,0 +1,42 @@
+using Microsoft.SemanticKernel;
+using Nest;
+using SemanticKernelDocumentQA.Services;
+
+namespace SemanticKernelDocumentQA.Extensions
+{
+    public static class ServiceExtensions
+    {
+        public static IServiceCollection AddSemanticKernelServices(this IServiceCollection services, IConfiguration configuration)
+        {
+            // Get OpenAI API key
+            var openAiApiKey = configuration["OpenAI:ApiKey"];
+            if (string.IsNullOrEmpty(openAiApiKey))
+            {
+                throw new InvalidOperationException("OpenAI API key is not configured");
+            }
+
+            // Add Semantic Kernel
+            var kernelBuilder = Kernel.CreateBuilder();
+            kernelBuilder.AddOpenAIChatCompletion("gpt-3.5-turbo", openAiApiKey);
+            var kernel = kernelBuilder.Build();
+
+            services.AddSingleton(kernel);
+
+            // Add Elasticsearch
+            var elasticsearchUrl = configuration.GetConnectionString("Elasticsearch") ?? "http://localhost:9200";
+            var settings = new ConnectionSettings(new Uri(elasticsearchUrl))
+                .DefaultIndex("documents")
+                .DisableDirectStreaming();
+
+            var client = new ElasticClient(settings);
+            services.AddSingleton<IElasticClient>(client);
+
+            // Add services
+            services.AddScoped<ISemanticKernelService, SemanticKernelService>();
+            services.AddScoped<IDocumentService, DocumentService>();
+            services.AddScoped<IVectorStoreService, VectorStoreService>();
+
+            return services;
+        }
+    }
+}

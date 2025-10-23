@@ -1,0 +1,111 @@
+using Microsoft.AspNetCore.Mvc;
+using SemanticKernelDocumentQA.Models;
+using SemanticKernelDocumentQA.Services;
+
+namespace SemanticKernelDocumentQA.Controllers
+{
+    [ApiController]
+    [Route("api/[controller]")]
+    public class ChatController : ControllerBase
+    {
+        private readonly ISemanticKernelService _semanticKernelService;
+        private readonly ILogger<ChatController> _logger;
+
+        public ChatController(
+            ISemanticKernelService semanticKernelService,
+            ILogger<ChatController> logger)
+        {
+            _semanticKernelService = semanticKernelService;
+            _logger = logger;
+        }
+
+        [HttpPost("ask")]
+        public async Task<ActionResult<ChatResponse>> AskQuestion([FromBody] ChatRequest request)
+        {
+            if (string.IsNullOrEmpty(request.Question))
+            {
+                return BadRequest(ChatResponse.CreateError("Question is required"));
+            }
+
+            try
+            {
+                var userId = request.UserId ?? "default-user";
+                var response = await _semanticKernelService.AskQuestionAsync(userId, request.Question);
+                
+                // If the service returns a ChatResponse, use it directly
+                if (response is ChatResponse chatResponse)
+                {
+                    return Ok(chatResponse);
+                }
+                
+                // If the service returns a string, wrap it in a ChatResponse
+                return Ok(ChatResponse.CreateSuccess(response.ToString()));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error processing question");
+                return Ok(ChatResponse.CreateError("I encountered an error processing your question."));
+            }
+        }
+
+        [HttpPost("summarize/{documentId}")]
+        public async Task<ActionResult> SummarizeDocument(string documentId)
+        {
+            try
+            {
+                var response = await _semanticKernelService.SummarizeDocumentAsync(documentId);
+                return Ok(new { Summary = response });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error summarizing document {DocumentId}", documentId);
+                return StatusCode(500, new { Error = "Internal server error" });
+            }
+        }
+
+        [HttpPost("keypoints/{documentId}")]
+        public async Task<ActionResult> ExtractKeyPoints(string documentId)
+        {
+            try
+            {
+                var response = await _semanticKernelService.ExtractKeyPointsAsync(documentId);
+                return Ok(new { KeyPoints = response });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error extracting key points from document {DocumentId}", documentId);
+                return StatusCode(500, new { Error = "Internal server error" });
+            }
+        }
+
+        [HttpDelete("conversations/{conversationId}")]
+        public IActionResult ClearConversation(string conversationId)
+        {
+            try
+            {
+                _semanticKernelService.ClearConversation(conversationId);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error clearing conversation {ConversationId}", conversationId);
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        [HttpDelete("conversations")]
+        public IActionResult ClearAllConversations()
+        {
+            try
+            {
+                _semanticKernelService.ClearAllConversations();
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error clearing all conversations");
+                return StatusCode(500, "Internal server error");
+            }
+        }
+    }
+}
