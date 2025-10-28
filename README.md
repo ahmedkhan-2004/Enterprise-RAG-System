@@ -56,13 +56,16 @@ This experience gave me **hands-on exposure to building enterprise AI systems**,
 ✅ Kibana dashboard for monitoring  
 ✅ Docker Compose for easy deployment
 
+---
+
 ## 📈 Results
 
 - Reduced manual analysis time by **60%**
 - **92% accuracy** on retrieval tasks
 - **<500ms** query latency (p95)
 - **$500K+ annual savings** for 10 analysts
-
+- 
+---
 ## 📞 Contact
 
 **Ahmed Khan** - AI/ML Engineer  
