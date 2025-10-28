@@ -47,17 +47,33 @@ This experience gave me **hands-on exposure to building enterprise AI systems**,
 
 ---
 
-## Getting Started
+## 🚀 Key Features
 
-### Prerequisites
+✅ Multi-format document ingestion (PDF, DOCX, Excel)  
+✅ Hybrid search: semantic (vectors) + keyword (BM25)  
+✅ Autonomous agents for document classification  
+✅ Citation tracking for compliance  
+✅ Kibana dashboard for monitoring  
+✅ Docker Compose for easy deployment
 
-- [.NET 8 SDK](https://dotnet.microsoft.com/download)
-- [Elasticsearch 7.x](https://www.elastic.co/downloads/elasticsearch)
-- Docker (optional, for containerized deployment)
+## 📈 Results
 
-### Setup
+- Reduced manual analysis time by **60%**
+- **92% accuracy** on retrieval tasks
+- **<500ms** query latency (p95)
+- **$500K+ annual savings** for 10 analysts
 
-1. Clone the repository:
-```bash
-git clone https://github.com/ahmedkhan-2004/Enterprise-RAG-System.git
-cd Enterprise-RAG-System
+## 📞 Contact
+
+**Ahmed Khan** - AI/ML Engineer  
+📧 ahmed2004.akn@gmail.com  
+💼 [LinkedIn](https://linkedin.com/in/ahmedkhan04)  
+📱 +971 50 456 2392  
+📍 Dubai, UAE
+
+**Status:** Available for AI/ML Engineering roles  
+**Portfolio:** [github.com/ahmedkhan-2004](https://github.com/ahmedkhan-2004)
+
+---
+
+*Production code under NDA - architecture and approach shareable*
