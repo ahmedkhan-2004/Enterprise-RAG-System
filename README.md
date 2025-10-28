@@ -4,19 +4,33 @@
 
 ## Overview
 
-The **Enterprise RAG System** is a cutting-edge **.NET 8 application** leveraging **Semantic Kernel** and **Elasticsearch** to provide an intelligent, scalable **document question-answering solution** for enterprises.  
+The **Enterprise RAG System** is a **production-ready AI document Q&A platform** developed for **Dasseti** while I was a **Junior AI Application Developer**.  
 
-This system allows users to **query large collections of documents efficiently**, offering accurate, context-aware responses. The architecture is designed for **extensibility, high performance, and production readiness**.
+This system leverages **.NET 8**, **Semantic Kernel**, and **Elasticsearch** to provide **intelligent, scalable, and secure document query capabilities** for enterprise clients. Users can ask questions over large document collections and receive **context-aware, accurate responses in real-time**.  
+
+---
+
+## My Role
+
+As a **Junior AI Application Developer**, I was responsible for:  
+
+- Implementing **Semantic Kernel-based document retrieval and reasoning**.  
+- Integrating **Elasticsearch for high-performance indexing and search**.  
+- Ensuring **security best practices**, removing sensitive secrets, and managing placeholders for production deployment.  
+- Collaborating on **production-ready architecture**, CI/CD workflows, and deployment pipelines.  
+- Writing **clean, maintainable, and modular code** for enterprise usage.  
+
+This experience gave me **hands-on exposure to building enterprise AI systems**, production deployment, and real-world problem-solving.  
 
 ---
 
 ## Key Features
 
-- **Intelligent Document Q&A**: Leverages semantic search and AI-powered reasoning for accurate responses.  
-- **Enterprise-Grade Architecture**: Modular design with clean separation of concerns for scalability.  
-- **Secure Design**: Secrets and sensitive keys are removed from the repository; placeholders are used to ensure security best practices.  
-- **Elasticsearch Integration**: Efficient indexing and searching for enterprise document storage.  
-- **Cross-Platform Compatibility**: Runs on Windows, Linux, and Dockerized environments.  
+- **Intelligent Document Q&A**: AI-powered, semantic reasoning for accurate responses.  
+- **Production-Ready Architecture**: Modular, scalable, and secure.  
+- **Secure by Design**: Secrets removed from repository; placeholders used to enforce best practices.  
+- **High-Performance Search**: Elasticsearch integration for fast querying.  
+- **Cross-Platform Support**: Runs on Windows, Linux, and containerized Docker environments.  
 
 ---
 
@@ -27,9 +41,9 @@ This system allows users to **query large collections of documents efficiently**
 | Language & Framework | C# / .NET 8 |
 | AI & Semantic Kernel | Microsoft Semantic Kernel |
 | Search Engine | Elasticsearch |
-| Dependency Management | NuGet |
-| DevOps & Containerization | Docker, Docker Compose |
 | Logging & Monitoring | Serilog |
+| Containerization | Docker, Docker Compose |
+| Dependency Management | NuGet |
 
 ---
 
